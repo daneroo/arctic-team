@@ -3,4 +3,5 @@ export interface Place {
   name: string;
   latitude: number;
   longitude: number;
+  osmId?: string; // OpenStreetMap way ID
 }

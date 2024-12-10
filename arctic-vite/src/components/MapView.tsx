@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import { useEffect, useState } from 'react';
+import { MapContainer, TileLayer, Marker, Popup, useMap, GeoJSON } from 'react-leaflet';
 import { Place } from '../types/Place';
 import 'leaflet/dist/leaflet.css';
 import { icon } from 'leaflet';
+import { fetchOsmBuilding } from '../utils/osmFetch';
 
 // Fix for default marker icon
 const defaultIcon = icon({
@@ -17,6 +18,7 @@ interface MapViewProps {
   places: Place[];
   center: [number, number];
   zoom: number;
+  selectedPlace?: Place;
 }
 
 function MapUpdater({ center, zoom }: { center: [number, number]; zoom: number }) {
@@ -32,7 +34,21 @@ function MapUpdater({ center, zoom }: { center: [number, number]; zoom: number }
   return null;
 }
 
-export function MapView({ places, center, zoom }: MapViewProps) {
+export function MapView({ places, center, zoom, selectedPlace }: MapViewProps) {
+  const [buildingOutline, setBuildingOutline] = useState<GeoJSON.Feature | null>(null);
+
+  useEffect(() => {
+    async function fetchBuilding() {
+      if (selectedPlace?.osmId) {
+        const data = await fetchOsmBuilding(selectedPlace.osmId);
+        setBuildingOutline(data);
+      } else {
+        setBuildingOutline(null);
+      }
+    }
+    fetchBuilding();
+  }, [selectedPlace]);
+
   return (
     <MapContainer
       center={center}
@@ -44,6 +60,18 @@ export function MapView({ places, center, zoom }: MapViewProps) {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
+      {buildingOutline && (
+        <GeoJSON
+          key={selectedPlace?.osmId}
+          data={buildingOutline}
+          style={{
+            color: '#2563eb',
+            weight: 2,
+            fillColor: '#3b82f6',
+            fillOpacity: 0.2
+          }}
+        />
+      )}
       {places.map((place) => (
         <Marker
           key={place.id}

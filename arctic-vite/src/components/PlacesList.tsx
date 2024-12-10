@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import { MapPin } from 'lucide-react';
 import { Place } from '../types/Place';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -6,9 +6,10 @@ import { useLanguage } from '../contexts/LanguageContext';
 interface PlacesListProps {
   places: Place[];
   onPlaceSelect: (place: Place) => void;
+  selectedPlace: Place | null;
 }
 
-export function PlacesList({ places, onPlaceSelect }: PlacesListProps) {
+export function PlacesList({ places, onPlaceSelect, selectedPlace }: PlacesListProps) {
   const { t } = useLanguage();
 
   return (
@@ -22,7 +23,8 @@ export function PlacesList({ places, onPlaceSelect }: PlacesListProps) {
           <button
             key={place.id}
             onClick={() => onPlaceSelect(place)}
-            className="w-full text-left p-3 hover:bg-gray-50 rounded-md transition-colors duration-200 flex items-center gap-2"
+            className={`w-full text-left p-3 hover:bg-gray-50 rounded-md transition-colors duration-200 flex items-center gap-2 ${selectedPlace?.id === place.id ? 'bg-blue-100' : ''
+              }`}
           >
             <MapPin className="w-4 h-4 text-gray-500" />
             <span>{place.name}</span>
