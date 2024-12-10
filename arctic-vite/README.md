@@ -2,6 +2,8 @@
 
 ## App description
 
+An interactive map application showing various places in an OpenStreetMap.
+
 - Left Side contains a list of places
   - `Place: {id: string;  name: string;  latitude: number;  longitude: number};`
 - Right Side contains an OpenStreetMap map
