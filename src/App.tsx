@@ -1,68 +1,72 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Place } from './types/Place';
 import { PlacesList } from './components/PlacesList';
 import { MapView } from './components/MapView';
 import { PlaceForm } from './components/PlaceForm';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
 import { useLanguage } from './contexts/LanguageContext';
-
-const initialPlaces: Place[] = [
-  {
-    id: '1',
-    name: 'Cambridge Bay',
-    latitude: 69.1169,
-    longitude: -105.0593,
-  },
-  {
-    id: '2',
-    name: 'Université du Québec à Chicoutimi',
-    latitude: 48.4197,
-    longitude: -71.0538,
-  },
-  {
-    id: '3',
-    name: 'Université Laval',
-    latitude: 46.7817,
-    longitude: -71.2747,
-  },
-  {
-    id: '4',
-    name: 'Ottawa Shaw Centre',
-    latitude: 45.4242529,
-    longitude: -75.6912376,
-    osmId: '264535169'
-  }
-];
+import { supabase } from './lib/supabase';
 
 function App() {
-  const [places, setPlaces] = useState<Place[]>(initialPlaces);
+  const [places, setPlaces] = useState<Place[]>([]);
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
   const [editingPlace, setEditingPlace] = useState<Place | null>(null);
   const { t } = useLanguage();
 
-  const handlePlaceSubmit = (placeData: Omit<Place, 'id'>) => {
+  useEffect(() => {
+    async function fetchPlaces() {
+      const { data, error } = await supabase
+        .from('places')
+        .select('*');
+
+      if (error) {
+        console.error('Error fetching places:', error);
+        return;
+      }
+
+      if (data) {
+        setPlaces(data);
+      }
+    }
+
+    fetchPlaces();
+  }, []);
+
+  const handlePlaceSubmit = async (placeData: Omit<Place, 'id'>) => {
     if (editingPlace) {
       // Update existing place
-      const updatedPlaces = places.map(p =>
-        p.id === editingPlace.id
-          ? { ...placeData, id: editingPlace.id }
-          : p
-      );
-      setPlaces(updatedPlaces);
-      setEditingPlace(null);
+      const { error } = await supabase
+        .from('places')
+        .update(placeData)
+        .eq('id', editingPlace.id);
+
+      if (error) {
+        console.error('Error updating place:', error);
+        return;
+      }
     } else {
       // Add new place
-      const newPlace: Place = {
-        ...placeData,
-        id: Date.now().toString(),
-      };
-      setPlaces([...places, newPlace]);
+      const { error } = await supabase
+        .from('places')
+        .insert(placeData);
+
+      if (error) {
+        console.error('Error adding place:', error);
+        return;
+      }
     }
+
+    // Refresh places list
+    const { data } = await supabase.from('places').select('*');
+    if (data) {
+      setPlaces(data);
+    }
+    setEditingPlace(null);
   };
 
   const handlePlaceSelect = (place: Place) => {
     setSelectedPlace(place);
-    setEditingPlace(place);  // Populate form when selecting
+    setEditingPlace(place);
   };
 
   const center: [number, number] = selectedPlace
@@ -80,6 +84,7 @@ function App() {
           <div className="md:col-span-1 space-y-6">
             <PlaceForm
               onSubmit={handlePlaceSubmit}
+              onCancel={() => setEditingPlace(null)}
               initialData={editingPlace}
               mode={editingPlace ? 'edit' : 'create'}
             />
@@ -94,6 +99,7 @@ function App() {
               places={places}
               center={center}
               zoom={selectedPlace ? 13 : 4}
+              selectedPlace={selectedPlace}
             />
           </div>
         </div>

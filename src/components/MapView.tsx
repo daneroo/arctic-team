@@ -18,7 +18,7 @@ interface MapViewProps {
   places: Place[];
   center: [number, number];
   zoom: number;
-  selectedPlace?: Place;
+  selectedPlace: Place | null;
 }
 
 function MapUpdater({ center, zoom }: { center: [number, number]; zoom: number }) {

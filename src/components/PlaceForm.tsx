@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Place } from '../types/Place';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface PlaceFormProps {
   onSubmit: (place: Omit<Place, 'id'>) => void;
+  onCancel?: () => void;
   initialData?: Place | null;
   mode: 'create' | 'edit';
 }
 
-export function PlaceForm({ onSubmit, initialData, mode }: PlaceFormProps) {
+export function PlaceForm({ onSubmit, onCancel, initialData, mode }: PlaceFormProps) {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     name: '',
     latitude: '',
@@ -48,7 +51,9 @@ export function PlaceForm({ onSubmit, initialData, mode }: PlaceFormProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <label className="block text-sm font-medium text-gray-700">Name</label>
+        <label className="block text-sm font-medium text-gray-700">
+          {t('placeName')}
+        </label>
         <input
           type="text"
           value={formData.name}
@@ -58,7 +63,9 @@ export function PlaceForm({ onSubmit, initialData, mode }: PlaceFormProps) {
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700">Latitude</label>
+        <label className="block text-sm font-medium text-gray-700">
+          {t('latitude')}
+        </label>
         <input
           type="number"
           step="any"
@@ -69,7 +76,9 @@ export function PlaceForm({ onSubmit, initialData, mode }: PlaceFormProps) {
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700">Longitude</label>
+        <label className="block text-sm font-medium text-gray-700">
+          {t('longitude')}
+        </label>
         <input
           type="number"
           step="any"
@@ -83,18 +92,18 @@ export function PlaceForm({ onSubmit, initialData, mode }: PlaceFormProps) {
         type="submit"
         className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
       >
-        {mode === 'create' ? 'Add Place' : 'Update Place'}
+        {mode === 'create' ? t('addPlace') : t('updatePlace')}
       </button>
       {mode === 'edit' && (
         <button
           type="button"
           onClick={() => {
             setFormData({ name: '', latitude: '', longitude: '' });
-            onSubmit({ name: '', latitude: 0, longitude: 0 });
+            onCancel?.();
           }}
           className="w-full mt-2 bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600"
         >
-          Cancel Edit
+          {t('cancelEdit')}
         </button>
       )}
     </form>
