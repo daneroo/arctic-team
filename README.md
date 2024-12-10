@@ -1,4 +1,4 @@
-# arctic-vite
+# arctic-team
 
 ## App description
 
@@ -13,7 +13,8 @@ An interactive map application showing various places in an OpenStreetMap.
 
 Based on your package.json, this is a modern web application with the following tech stack:
 Core Technologies:
-React 18.3.1 (JavaScript library for building user interfaces)
+- Supabase (Database - Auth later)
+- React 18.3.1 (JavaScript library for building user interfaces)
 TypeScript (for type-safe JavaScript)
 Vite 5.4.2 (as the build tool and development server)
 Key Features/Libraries:

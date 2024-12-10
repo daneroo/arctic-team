@@ -5,7 +5,7 @@ import { MapView } from './components/MapView';
 import { PlaceForm } from './components/PlaceForm';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
 import { useLanguage } from './contexts/LanguageContext';
-import { supabase } from './lib/supabase';
+import { supabase } from './db/supabase';
 
 function App() {
   const [places, setPlaces] = useState<Place[]>([]);
@@ -15,6 +15,7 @@ function App() {
 
   useEffect(() => {
     async function fetchPlaces() {
+      console.log('Fetching places...');
       const { data, error } = await supabase
         .from('places')
         .select('*');
@@ -24,6 +25,7 @@ function App() {
         return;
       }
 
+      console.log('Fetched places:', data);
       if (data) {
         setPlaces(data);
       }
