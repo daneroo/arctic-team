@@ -66,7 +66,7 @@ export function MapView({ places, center, zoom, bounds, selectedPlace, onMarkerC
     <MapContainer
       center={center}
       zoom={zoom ?? 4}
-      className="w-full h-full rounded-lg [&_.leaflet-control-layers]:min-w-[36px] sm:[&_.leaflet-control-layers]:min-w-[unset] [&_.leaflet-control-layers-expanded]:min-w-[85px] sm:[&_.leaflet-control-layers-expanded]:min-w-[unset] [&_.leaflet-control-layers]:!bg-white/90"
+      className="w-full h-full rounded-lg"
     >
       <MapUpdater center={center} zoom={zoom} bounds={bounds} />
       <LayersControl position="topright">
