@@ -14,7 +14,9 @@ export function PlaceForm({ onSubmit, onCancel, initialData, mode }: PlaceFormPr
   const [formData, setFormData] = useState({
     name: '',
     latitude: '',
-    longitude: ''
+    longitude: '',
+    osm_id: null as string | null,
+    description: ''
   });
 
   // Populate form when initialData changes
@@ -23,14 +25,18 @@ export function PlaceForm({ onSubmit, onCancel, initialData, mode }: PlaceFormPr
       setFormData({
         name: initialData.name,
         latitude: initialData.latitude.toString(),
-        longitude: initialData.longitude.toString()
+        longitude: initialData.longitude.toString(),
+        osm_id: initialData.osm_id,
+        description: initialData.description
       });
     } else {
       // Reset form when clearing initialData
       setFormData({
         name: '',
         latitude: '',
-        longitude: ''
+        longitude: '',
+        osm_id: null,
+        description: ''
       });
     }
   }, [initialData]);
@@ -41,11 +47,12 @@ export function PlaceForm({ onSubmit, onCancel, initialData, mode }: PlaceFormPr
       name: formData.name,
       latitude: parseFloat(formData.latitude),
       longitude: parseFloat(formData.longitude),
-      osm_id: null
+      osm_id: formData.osm_id,
+      description: formData.description
     });
     // Only reset if it's a new place
     if (mode === 'new') {
-      setFormData({ name: '', latitude: '', longitude: '' });
+      setFormData({ name: '', latitude: '', longitude: '', osm_id: null, description: '' });
     }
   };
 
@@ -92,6 +99,17 @@ export function PlaceForm({ onSubmit, onCancel, initialData, mode }: PlaceFormPr
             />
           </div>
         </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            {t('description')}
+          </label>
+          <textarea
+            value={formData.description}
+            onChange={e => setFormData(prev => ({ ...prev, description: e.target.value }))}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+            rows={3}
+          />
+        </div>
         <button
           type="submit"
           className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
@@ -115,6 +133,15 @@ export function PlaceForm({ onSubmit, onCancel, initialData, mode }: PlaceFormPr
           <p>Latitude: {formData.latitude}</p>
           <p>Longitude: {formData.longitude}</p>
         </div>
+        {formData.osm_id && (
+          <p className="text-gray-600">OSM ID: {formData.osm_id}</p>
+        )}
+        {formData.description && (
+          <div className="text-gray-600">
+            <p className="font-medium mb-1">Description:</p>
+            <p>{formData.description}</p>
+          </div>
+        )}
       </div>
     ) : null
   );

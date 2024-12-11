@@ -10,6 +10,7 @@ export const translations = {
     updatePlace: "Update Place",
     editPlace: "Edit Place",
     cancelEdit: "Cancel",
+    description: "Description",
   },
   fr: {
     title: "Explorateur des lieux canadiens",
@@ -22,6 +23,7 @@ export const translations = {
     updatePlace: "Modifier le lieu",
     editPlace: "Éditer le lieu",
     cancelEdit: "Annuler",
+    description: "Description",
   },
 };
 

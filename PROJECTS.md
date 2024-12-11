@@ -12,3 +12,10 @@ Arctic is warming two to four times faster than any other place on the planet. I
 
 Pr. Frédéric Bouchard team from University of Sherbrooke is looking to asses permafrost degradation in the Kitigaq region, based on water sampling and erosion modeling
 
+## Mahahual Mangrove Research
+
+Latitude: 18.7170436
+Longitude: -87.7114494
+
+The research conducted in Mahahual, Mexico, highlights the rapid degradation of the mangrove forest and its ecosystem. The main causes of degradation are:
+Urbanization, Deforestation Climate Change

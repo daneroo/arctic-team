@@ -1,0 +1,98 @@
+# This file contains the seed data for the places table.
+# After editing this file, regenerate the SQL file by running:
+#   npm run seed
+#
+# The generated SQL file will be: supabase/seed.sql
+
+places:
+  - id: 1
+    name: Cambridge Bay
+    latitude: 69.1169
+    longitude: -105.0593
+    osm_id: null
+    description: >-
+      Main research hub in Nunavut, home to the Canadian High Arctic Research Station
+
+  - id: 2
+    name: Université du Québec à Chicoutimi
+    latitude: 48.4197
+    longitude: -71.0538
+    osm_id: null
+    description: >-
+      Research partner institution with expertise in northern studies
+
+  - id: 3
+    name: Université Laval
+    latitude: 46.7817
+    longitude: -71.2747
+    osm_id: null
+    description: >-
+      Leading institution in Arctic research and host of Sentinel North program
+
+  - id: 4
+    name: Ottawa Shaw Centre
+    latitude: 45.4242529
+    longitude: -75.6912376
+    osm_id: "264535169"
+    description: >-
+      Conference venue for Arctic research meetings
+
+  - id: 5
+    name: Permafrost impact on Aquatic Systems
+    latitude: 69.2342410666946
+    longitude: -105.99041660227468
+    osm_id: null
+    description: >-
+      Arctic is warming two to four times faster than any other place on the planet. 
+      It can significantly affect permafrost, which is crucial to the region's ground stability. 
+      This study focuses on a river and lake-rich area located near Ikaluktutiak (Cambridge Bay, Nunavut).
+
+      Although little is known of permafrost conditions, local observations indicate that episodes 
+      of abrupt and localized permafrost degradation have increased in the past decades. Therefore, 
+      it represents a key site for studying and monitoring the effects of permafrost thaw on local 
+      aquatic ecosystems and northern communities.
+
+      This project aims to detect past and recent indicators of degrading permafrost and assess 
+      its impacts on aquatic ecosystems through remote sensing, geomorphology, and limnology. 
+      More specifically, this project will focus on assessing the hydrological stability of lakes, 
+      analyzing variations in lake surfaces over time, and mapping the geomorphological origins 
+      and hydrological connectivity of these lakes.
+
+      The stable isotope composition of different water sources, including active-layer groundwater 
+      and ground-ice was analysed to assess their contributions to sampled lakes and ponds. Our 
+      preliminary results revealed diverse lake morphologies, ranging from shallow, flat lakes to 
+      deeper lakes with variable bathymetric topography.
+
+      Permafrost cores (1.5 m) indicate high ground ice content with low amounts of organic matter. 
+      Turbidity measurements in a tributary of Kitigaq River, where subsistence fishing occurs, 
+      indicate above-normal turbidity values after the degradation of ice-rich permafrost. These 
+      findings highlight the importance of monitoring permafrost degradation in this understudied 
+      area since it has implications for both ecosystem health and local community.
+
+  - id: 6
+    name: Kitigaq Area Permafrost Degradation
+    latitude: 69.2319
+    longitude: -105.9444
+    osm_id: null
+    description: >-
+      Pr. Frédéric Bouchard team from University of Sherbrooke is looking to asses 
+      permafrost degradation in the Kitigaq region, based on water sampling and 
+      erosion modeling.
+
+  - id: 7
+    name: Campus Lavallée
+    latitude: 45.466043
+    longitude: -75.754984
+    osm_id: "477197015"
+    description: >-
+      Research facility focusing on Arctic climate change.
+
+  - id: 8
+    name: Mahahual Mangrove Research
+    latitude: 18.7170436
+    longitude: -87.7114494
+    osm_id: null
+    description: >-
+      The research conducted in Mahahual, Mexico, highlights the rapid degradation 
+      of the mangrove forest and its ecosystem. The main causes of degradation are:
+      Urbanization, Deforestation Climate Change.

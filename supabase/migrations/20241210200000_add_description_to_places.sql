@@ -1,0 +1,2 @@
+ALTER TABLE places
+ADD COLUMN description TEXT NOT NULL DEFAULT ''; 

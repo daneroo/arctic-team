@@ -4,6 +4,7 @@ export interface Place {
   latitude: number;
   longitude: number;
   osm_id: string | null;
+  description: string;
 }
 
 export type ViewMode = "none" | "view" | "edit" | "new";
