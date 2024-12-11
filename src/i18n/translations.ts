@@ -1,6 +1,6 @@
 export const translations = {
   en: {
-    title: "Canadian Places Explorer",
+    title: "Cambridge Bay",
     places: "Places",
     addPlace: "Add Place",
     placeName: "Place Name",
@@ -14,7 +14,7 @@ export const translations = {
     searchPlaces: "Search name, description...",
   },
   fr: {
-    title: "Explorateur des lieux canadiens",
+    title: "Cambridge Bay",
     places: "Lieux",
     addPlace: "Ajouter un lieu",
     placeName: "Nom du lieu",

@@ -1,12 +1,13 @@
 # arctic-team
 
-- [ ] Rename to cambridge-bay-research , at least in the deployed domain name
+- [ ] Title: Cambridge Bay; finalize the name
+- [x] Rename to cambridge-bay-research , at least in the deployed domain name
 - [x] move selected place to i't own panel
   - [x] Add a text description to places
   - [x] Add an edit button for the current place
   - [x] add new place button to main panel
 - [x] search and order places
-- [ ] select current place from marker
+- [x] select current place from marker
 - [ ] colors from <https://arcticnet.ca/>
 
 ## App description
