@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap, GeoJSON } from 'react-leaflet';
 import { Place } from '../types/Place';
 import 'leaflet/dist/leaflet.css';
@@ -21,6 +21,7 @@ interface MapViewProps {
   zoom?: number;
   bounds?: LatLngBounds;
   selectedPlace: Place | null;
+  onMarkerClick?: (place: Place) => void;
 }
 
 interface MapUpdaterProps {
@@ -46,7 +47,7 @@ function MapUpdater({ center, zoom, bounds }: MapUpdaterProps) {
   return null;
 }
 
-export function MapView({ places, center, zoom, bounds, selectedPlace }: MapViewProps) {
+export function MapView({ places, center, zoom, bounds, selectedPlace, onMarkerClick }: MapViewProps) {
   const [buildingOutline, setBuildingOutline] = useState<GeoJSON.Feature | null>(null);
 
   useEffect(() => {
@@ -90,7 +91,25 @@ export function MapView({ places, center, zoom, bounds, selectedPlace }: MapView
           position={[place.latitude, place.longitude]}
           icon={defaultIcon}
         >
-          <Popup>{place.name}</Popup>
+          <Popup closeButton={false}>
+            <div className="space-y-2">
+              <p>{place.name}</p>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  onMarkerClick?.(place);
+                  const popup = e.currentTarget.closest('.leaflet-popup');
+                  if (popup) {
+                    popup.classList.add('leaflet-popup-hide');
+                    setTimeout(() => popup.remove(), 300);
+                  }
+                }}
+                className="bg-blue-500 text-white px-2 py-1 rounded text-sm hover:bg-blue-600"
+              >
+                View Details
+              </button>
+            </div>
+          </Popup>
         </Marker>
       ))}
     </MapContainer>

@@ -197,6 +197,7 @@ function App() {
               zoom={mapView.zoom}
               bounds={mapView.bounds}
               selectedPlace={leftPanel.place}
+              onMarkerClick={handlePlaceSelect}
             />
           </div>
         </div>
