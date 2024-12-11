@@ -1,7 +1,7 @@
 // import React from 'react';
 import { MapPin } from 'lucide-react';
 import { Place } from '../types/Place';
-import { useLanguage } from '../contexts/LanguageContext';
+import { useLanguage } from '../hooks/useLanguage';
 
 interface PlacesListProps {
   places: Place[];

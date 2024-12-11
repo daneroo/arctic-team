@@ -1,9 +1,9 @@
-import React from 'react';
-import { useLanguage } from '../contexts/LanguageContext';
+// import React from 'react';
+import { useLanguage } from '../hooks/useLanguage';
 import { Languages } from 'lucide-react';
 
 export function LanguageSwitcher() {
-  const { language, setLanguage, t } = useLanguage();
+  const { language, setLanguage } = useLanguage();
 
   return (
     <div className="flex items-center gap-2">

@@ -1,7 +1,14 @@
 export interface Place {
-  id: string;
+  id: number;
   name: string;
   latitude: number;
   longitude: number;
-  osmId?: string; // OpenStreetMap way ID
+  osm_id: string | null;
+}
+
+export type ViewMode = "none" | "view" | "edit" | "new";
+
+export interface LeftPanelState {
+  mode: ViewMode;
+  place: Place | null;
 }

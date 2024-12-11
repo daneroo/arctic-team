@@ -8,6 +8,7 @@ export const translations = {
     longitude: "Longitude",
     language: "Language",
     updatePlace: "Update Place",
+    editPlace: "Edit Place",
     cancelEdit: "Cancel",
   },
   fr: {
@@ -19,6 +20,7 @@ export const translations = {
     longitude: "Longitude",
     language: "Langue",
     updatePlace: "Modifier le lieu",
+    editPlace: "Éditer le lieu",
     cancelEdit: "Annuler",
   },
 };

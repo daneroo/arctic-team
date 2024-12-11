@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Place } from '../types/Place';
-import { useLanguage } from '../contexts/LanguageContext';
+import { Place, ViewMode } from '../types/Place';
+import { useLanguage } from '../hooks/useLanguage';
 
 interface PlaceFormProps {
-  onSubmit: (place: Omit<Place, 'id'>) => void;
+  onSubmit: (data: Omit<Place, 'id'>) => void;
   onCancel?: () => void;
-  initialData?: Place | null;
-  mode: 'create' | 'edit';
+  initialData: Place | null;
+  mode: ViewMode;
 }
 
 export function PlaceForm({ onSubmit, onCancel, initialData, mode }: PlaceFormProps) {
@@ -40,72 +40,78 @@ export function PlaceForm({ onSubmit, onCancel, initialData, mode }: PlaceFormPr
     onSubmit({
       name: formData.name,
       latitude: parseFloat(formData.latitude),
-      longitude: parseFloat(formData.longitude)
+      longitude: parseFloat(formData.longitude),
+      osm_id: null
     });
     // Only reset if it's a new place
-    if (mode === 'create') {
+    if (mode === 'new') {
       setFormData({ name: '', latitude: '', longitude: '' });
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <label className="block text-sm font-medium text-gray-700">
-          {t('placeName')}
-        </label>
-        <input
-          type="text"
-          value={formData.name}
-          onChange={e => setFormData(prev => ({ ...prev, name: e.target.value }))}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-          required
-        />
-      </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700">
-          {t('latitude')}
-        </label>
-        <input
-          type="number"
-          step="any"
-          value={formData.latitude}
-          onChange={e => setFormData(prev => ({ ...prev, latitude: e.target.value }))}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-          required
-        />
-      </div>
-      <div>
-        <label className="block text-sm font-medium text-gray-700">
-          {t('longitude')}
-        </label>
-        <input
-          type="number"
-          step="any"
-          value={formData.longitude}
-          onChange={e => setFormData(prev => ({ ...prev, longitude: e.target.value }))}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-          required
-        />
-      </div>
-      <button
-        type="submit"
-        className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-      >
-        {mode === 'create' ? t('addPlace') : t('updatePlace')}
-      </button>
-      {mode === 'edit' && (
+    mode === 'edit' || mode === 'new' ? (
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            {t('placeName')}
+          </label>
+          <input
+            type="text"
+            value={formData.name}
+            onChange={e => setFormData(prev => ({ ...prev, name: e.target.value }))}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            {t('latitude')}
+          </label>
+          <input
+            type="number"
+            step="any"
+            value={formData.latitude}
+            onChange={e => setFormData(prev => ({ ...prev, latitude: e.target.value }))}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            {t('longitude')}
+          </label>
+          <input
+            type="number"
+            step="any"
+            value={formData.longitude}
+            onChange={e => setFormData(prev => ({ ...prev, longitude: e.target.value }))}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+            required
+          />
+        </div>
         <button
-          type="button"
-          onClick={() => {
-            setFormData({ name: '', latitude: '', longitude: '' });
-            onCancel?.();
-          }}
-          className="w-full mt-2 bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600"
+          type="submit"
+          className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
         >
-          {t('cancelEdit')}
+          {mode === 'new' ? t('addPlace') : t('updatePlace')}
         </button>
-      )}
-    </form>
+        {onCancel && (
+          <button
+            type="button"
+            onClick={onCancel}
+            className="w-full mt-2 bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600"
+          >
+            {t('cancelEdit')}
+          </button>
+        )}
+      </form>
+    ) : mode === 'view' ? (
+      <div className="space-y-4">
+        <h3 className="text-lg font-medium">{formData.name}</h3>
+        <p>Latitude: {formData.latitude}</p>
+        <p>Longitude: {formData.longitude}</p>
+      </div>
+    ) : null
   );
 } 
