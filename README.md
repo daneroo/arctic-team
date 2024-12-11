@@ -1,5 +1,13 @@
 # arctic-team
 
+- [ ] Rename to cambridge-bay-research , at least in the deployed domain name
+- [ ] move selected place to i't own panel
+  - [ ] Add a text description to places
+  - [ ] Add an edit button for the current place
+  - [ ] add new place button to main panel
+- [ ] select current place from marker
+- [ ] colors from <https://arcticnet.ca/>
+
 ## App description
 
 An interactive map application showing various places in an OpenStreetMap.
