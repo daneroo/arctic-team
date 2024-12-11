@@ -154,11 +154,13 @@ function App() {
               initialData={leftPanel.place}
               mode={leftPanel.mode}
             />
-            <PlacesList
-              places={places}
-              onPlaceSelect={handlePlaceSelect}
-              selectedPlace={leftPanel.place}
-            />
+            {leftPanel.mode === 'none' ? (
+              <PlacesList
+                places={places}
+                onPlaceSelect={handlePlaceSelect}
+                selectedPlace={leftPanel.place}
+              />
+            ) : null}
           </div>
           <div className="md:col-span-2 h-[600px]">
             <MapView

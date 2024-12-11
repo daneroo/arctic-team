@@ -64,31 +64,33 @@ export function PlaceForm({ onSubmit, onCancel, initialData, mode }: PlaceFormPr
             required
           />
         </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            {t('latitude')}
-          </label>
-          <input
-            type="number"
-            step="any"
-            value={formData.latitude}
-            onChange={e => setFormData(prev => ({ ...prev, latitude: e.target.value }))}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-            required
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700">
-            {t('longitude')}
-          </label>
-          <input
-            type="number"
-            step="any"
-            value={formData.longitude}
-            onChange={e => setFormData(prev => ({ ...prev, longitude: e.target.value }))}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-            required
-          />
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              {t('latitude')}
+            </label>
+            <input
+              type="number"
+              step="any"
+              value={formData.latitude}
+              onChange={e => setFormData(prev => ({ ...prev, latitude: e.target.value }))}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              {t('longitude')}
+            </label>
+            <input
+              type="number"
+              step="any"
+              value={formData.longitude}
+              onChange={e => setFormData(prev => ({ ...prev, longitude: e.target.value }))}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+              required
+            />
+          </div>
         </div>
         <button
           type="submit"
@@ -109,8 +111,10 @@ export function PlaceForm({ onSubmit, onCancel, initialData, mode }: PlaceFormPr
     ) : mode === 'view' ? (
       <div className="space-y-4">
         <h3 className="text-lg font-medium">{formData.name}</h3>
-        <p>Latitude: {formData.latitude}</p>
-        <p>Longitude: {formData.longitude}</p>
+        <div className="grid grid-cols-2 gap-4 text-gray-600">
+          <p>Latitude: {formData.latitude}</p>
+          <p>Longitude: {formData.longitude}</p>
+        </div>
       </div>
     ) : null
   );
