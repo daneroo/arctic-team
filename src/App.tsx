@@ -18,7 +18,8 @@ function App() {
       console.log('Fetching places...');
       const { data, error } = await supabase
         .from('places')
-        .select('*');
+        .select('*')
+        .order('name');
 
       if (error) {
         console.error('Error fetching places:', error);
@@ -35,6 +36,8 @@ function App() {
   }, []);
 
   const handlePlaceSubmit = async (placeData: Omit<Place, 'id'>) => {
+    console.log('Place data being submitted:', placeData);
+
     if (editingPlace) {
       // Update existing place
       const { error } = await supabase
@@ -47,10 +50,10 @@ function App() {
         return;
       }
     } else {
-      // Add new place
+      // Add new place without specifying the ID
       const { error } = await supabase
         .from('places')
-        .insert(placeData);
+        .insert(placeData); // Ensure placeData does not include an ID
 
       if (error) {
         console.error('Error adding place:', error);
@@ -59,7 +62,10 @@ function App() {
     }
 
     // Refresh places list
-    const { data } = await supabase.from('places').select('*');
+    const { data } = await supabase
+      .from('places')
+      .select('*')
+      .order('name');
     if (data) {
       setPlaces(data);
     }
@@ -91,6 +97,7 @@ function App() {
               mode={editingPlace ? 'edit' : 'create'}
             />
             <PlacesList
+
               places={places}
               onPlaceSelect={handlePlaceSelect}
               selectedPlace={selectedPlace}
