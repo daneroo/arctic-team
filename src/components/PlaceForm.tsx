@@ -106,7 +106,7 @@ export function PlaceForm({ onSubmit, onCancel, initialData, mode }: PlaceFormPr
           <textarea
             value={formData.description}
             onChange={e => setFormData(prev => ({ ...prev, description: e.target.value }))}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm min-h-[200px] md:max-h-[60vh] max-h-[40vh] resize-y"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm min-h-[200px] md:max-h-[60vh] max-h-[40vh] resize-y whitespace-pre-line"
             style={{ overflow: 'auto' }}
           />
         </div>
@@ -139,7 +139,7 @@ export function PlaceForm({ onSubmit, onCancel, initialData, mode }: PlaceFormPr
         {formData.description && (
           <div className="text-gray-600">
             <p className="font-medium mb-1">Description:</p>
-            <p>{formData.description}</p>
+            <p className="whitespace-pre-line">{formData.description}</p>
           </div>
         )}
       </div>
