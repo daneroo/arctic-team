@@ -4,6 +4,7 @@ import { Place } from '../types/Place';
 import 'leaflet/dist/leaflet.css';
 import { icon } from 'leaflet';
 import { fetchOsmBuilding } from '../utils/osmFetch';
+import { LatLngBounds } from 'leaflet';
 
 // Fix for default marker icon
 const defaultIcon = icon({
@@ -17,30 +18,41 @@ const defaultIcon = icon({
 interface MapViewProps {
   places: Place[];
   center: [number, number];
-  zoom: number;
+  zoom?: number;
+  bounds?: LatLngBounds;
   selectedPlace: Place | null;
 }
 
-function MapUpdater({ center, zoom }: { center: [number, number]; zoom: number }) {
+interface MapUpdaterProps {
+  center: [number, number];
+  zoom?: number;
+  bounds?: LatLngBounds;
+}
+
+function MapUpdater({ center, zoom, bounds }: MapUpdaterProps) {
   const map = useMap();
 
   useEffect(() => {
-    map.setView(center, zoom, {
-      animate: true,
-      duration: 1
-    });
-  }, [map, center, zoom]);
+    if (bounds) {
+      map.fitBounds(bounds, { padding: [50, 50] });
+    } else if (zoom !== undefined) {
+      map.setView(center, zoom, {
+        animate: true,
+        duration: 1
+      });
+    }
+  }, [map, center, zoom, bounds]);
 
   return null;
 }
 
-export function MapView({ places, center, zoom, selectedPlace }: MapViewProps) {
+export function MapView({ places, center, zoom, bounds, selectedPlace }: MapViewProps) {
   const [buildingOutline, setBuildingOutline] = useState<GeoJSON.Feature | null>(null);
 
   useEffect(() => {
     async function fetchBuilding() {
-      if (selectedPlace?.osmId) {
-        const data = await fetchOsmBuilding(selectedPlace.osmId);
+      if (selectedPlace?.osm_id) {
+        const data = await fetchOsmBuilding(selectedPlace.osm_id);
         setBuildingOutline(data);
       } else {
         setBuildingOutline(null);
@@ -52,17 +64,17 @@ export function MapView({ places, center, zoom, selectedPlace }: MapViewProps) {
   return (
     <MapContainer
       center={center}
-      zoom={zoom}
+      zoom={zoom ?? 4}
       className="w-full h-full rounded-lg"
     >
-      <MapUpdater center={center} zoom={zoom} />
+      <MapUpdater center={center} zoom={zoom} bounds={bounds} />
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {buildingOutline && (
         <GeoJSON
-          key={selectedPlace?.osmId}
+          key={selectedPlace?.osm_id}
           data={buildingOutline}
           style={{
             color: '#2563eb',

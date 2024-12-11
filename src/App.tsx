@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { Place } from './types/Place';
 import { PlacesList } from './components/PlacesList';
@@ -8,14 +8,45 @@ import { LanguageSwitcher } from './components/LanguageSwitcher';
 import { useLanguage } from './hooks/useLanguage';
 import { supabase } from './db/supabase';
 import { LeftPanelState } from './types/Place';
+import { LatLngBounds, latLng } from 'leaflet';
 
 function App() {
   const [places, setPlaces] = useState<Place[]>([]);
+  const [filteredPlaces, setFilteredPlaces] = useState<Place[]>([]);
   const [leftPanel, setLeftPanel] = useState<LeftPanelState>({
     mode: 'none',
     place: null
   });
   const { t } = useLanguage();
+
+  // Calculate map view based on filtered places or selected place
+  const mapView = useMemo(() => {
+    if (leftPanel.place) {
+      // When a place is selected, center on it
+      return {
+        center: [leftPanel.place.latitude, leftPanel.place.longitude] as [number, number],
+        zoom: 13
+      };
+    } else if (filteredPlaces.length > 0) {
+      // Calculate bounds for filtered places
+      const bounds = new LatLngBounds(
+        filteredPlaces.map(p => latLng(p.latitude, p.longitude))
+      );
+      // Get center of bounds
+      const center = bounds.getCenter();
+      return {
+        center: [center.lat, center.lng] as [number, number],
+        zoom: filteredPlaces.length === 1 ? 13 : undefined,
+        bounds: bounds
+      };
+    } else {
+      // Default view of Canada
+      return {
+        center: [56.1304, -106.3468] as [number, number],
+        zoom: 4
+      };
+    }
+  }, [leftPanel.place, filteredPlaces]);
 
   useEffect(() => {
     async function fetchPlaces() {
@@ -108,10 +139,6 @@ function App() {
     });
   };
 
-  const center: [number, number] = leftPanel.place
-    ? [leftPanel.place.latitude, leftPanel.place.longitude]
-    : [56.1304, -106.3468];
-
   return (
     <div className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-7xl mx-auto">
@@ -159,14 +186,16 @@ function App() {
                 places={places}
                 onPlaceSelect={handlePlaceSelect}
                 selectedPlace={leftPanel.place}
+                onFilteredPlacesChange={setFilteredPlaces}
               />
             ) : null}
           </div>
           <div className="md:col-span-2 h-[600px]">
             <MapView
-              places={places}
-              center={center}
-              zoom={leftPanel.place ? 13 : 4}
+              places={filteredPlaces}
+              center={mapView.center}
+              zoom={mapView.zoom}
+              bounds={mapView.bounds}
               selectedPlace={leftPanel.place}
             />
           </div>

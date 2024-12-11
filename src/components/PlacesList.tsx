@@ -1,15 +1,22 @@
 import { MapPin, ArrowDownAZ, ArrowDownZA, Search, X } from 'lucide-react';
 import { Place } from '../types/Place';
 import { useLanguage } from '../hooks/useLanguage';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
+import { LatLngBounds, latLng } from 'leaflet';
 
 interface PlacesListProps {
   places: Place[];
   onPlaceSelect: (place: Place) => void;
   selectedPlace: Place | null;
+  onFilteredPlacesChange?: (places: Place[]) => void;
 }
 
-export function PlacesList({ places, onPlaceSelect, selectedPlace }: PlacesListProps) {
+export function PlacesList({
+  places,
+  onPlaceSelect,
+  selectedPlace,
+  onFilteredPlacesChange
+}: PlacesListProps) {
   const { t } = useLanguage();
   const [searchTerm, setSearchTerm] = useState('');
   const [sortAscending, setSortAscending] = useState(true);
@@ -25,6 +32,11 @@ export function PlacesList({ places, onPlaceSelect, selectedPlace }: PlacesListP
         return sortAscending ? comparison : -comparison;
       });
   }, [places, searchTerm, sortAscending]);
+
+  // Notify parent of filtered places changes
+  useEffect(() => {
+    onFilteredPlacesChange?.(filteredAndSortedPlaces);
+  }, [filteredAndSortedPlaces, onFilteredPlacesChange]);
 
   return (
     <div className="bg-white rounded-lg shadow-md p-4 h-full">
