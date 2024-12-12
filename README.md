@@ -1,6 +1,6 @@
 # arctic-team
 
-- [ ] Title: Cambridge Bay; finalize the name
+- [x] Title: Cambridge Bay; finalize the name
 - [x] Rename to cambridge-bay-research , at least in the deployed domain name
 - [x] move selected place to i't own panel
   - [x] Add a text description to places
